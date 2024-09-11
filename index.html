@@ -24,38 +24,43 @@
             100% { background-position: 0% 0%; }
         }
 
-        #translateButton {
-            padding: 10px 20px;
-            background-color: #007bff;
-            color: white;
+        input[type="text"] {
+            padding: 15px;
+            font-size: 18px;
             border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            font-size: 16px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            border-radius: 25px;
+            width: 400px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+            text-align: center;
+            outline: none;
         }
 
-        #translateButton:hover {
-            background-color: #0056b3;
+        input[type="text"]::placeholder {
+            text-align: center;
         }
     </style>
 </head>
 <body>
-    <button id="translateButton">Traduzir e Pesquisar</button>
+
+    <input type="text" id="searchInput" placeholder="Digite e pressione Enter" autofocus>
+
     <script>
-        document.getElementById('translateButton').addEventListener('click', function() {
-            var texto = prompt("Digite o que deseja pesquisar:");
-            if (texto) {
-                var url = "https://translate.googleapis.com/translate_a/single?client=gtx&sl=pt&tl=en&dt=t&q=" + encodeURIComponent(texto);
-                fetch(url)
-                    .then(response => response.json())
-                    .then(data => {
-                        var traducao = data[0][0][0];
-                        window.location.href = "https://www.google.com/search?q=" + encodeURIComponent(traducao);
-                    })
-                    .catch(error => alert('Erro ao traduzir o texto.'));
+        document.getElementById('searchInput').addEventListener('keydown', function(event) {
+            if (event.key === 'Enter') {
+                var texto = event.target.value;
+                if (texto) {
+                    var url = "https://translate.googleapis.com/translate_a/single?client=gtx&sl=pt&tl=en&dt=t&q=" + encodeURIComponent(texto);
+                    fetch(url)
+                        .then(response => response.json())
+                        .then(data => {
+                            var traducao = data[0][0][0];
+                            window.location.href = "https://www.google.com/search?q=" + encodeURIComponent(traducao);
+                        })
+                        .catch(error => alert('Erro ao traduzir o texto.'));
+                }
             }
         });
     </script>
+
 </body>
 </html>
