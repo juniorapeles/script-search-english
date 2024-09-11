@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Traduzir e Pesquisar</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            overflow: hidden;
+            background: linear-gradient(-45deg, #ff6b6b, #f06595, #d5aaff, #6c5ce7);
+            background-size: 400% 400%;
+            animation: gradient 15s ease infinite;
+        }
+
+        @keyframes gradient {
+            0% { background-position: 0% 0%; }
+            50% { background-position: 100% 100%; }
+            100% { background-position: 0% 0%; }
+        }
+
+        #translateButton {
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        #translateButton:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <button id="translateButton">Traduzir e Pesquisar</button>
+    <script>
+        document.getElementById('translateButton').addEventListener('click', function() {
+            var texto = prompt("Digite o que deseja pesquisar:");
+            if (texto) {
+                var url = "https://translate.googleapis.com/translate_a/single?client=gtx&sl=pt&tl=en&dt=t&q=" + encodeURIComponent(texto);
+                fetch(url)
+                    .then(response => response.json())
+                    .then(data => {
+                        var traducao = data[0][0][0];
+                        window.location.href = "https://www.google.com/search?q=" + encodeURIComponent(traducao);
+                    })
+                    .catch(error => alert('Erro ao traduzir o texto.'));
+            }
+        });
+    </script>
+</body>
+</html>
